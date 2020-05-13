@@ -1,0 +1,36 @@
+{% extends 'basetwo.html' %}
+{% load static %}
+{% block title %} Your Matches {% endblock %}
+
+
+{% block content2 %}
+{% block content3 %}
+{% endblock %}
+
+<div class="container-fluid">
+	<!-- Page Heading -->
+	<h1 class="h3 mb-4 text-gray-800">Your Matches</h1>
+	<div class="row">
+	{% for other_user in all_users %}
+		{% if other_user.biodatamodel.sex != user.biodatamodel.sex %}
+			{% for i in matched_users %}
+				{% if other_user.id in i %}
+					<a href="{% url 'otherprofiles' other_user.username %}">
+						<div class="card ml-2 mb-2" style="width:200px">
+							<img class="card-img-top" src="{{ other_user.profile.image.url }}" style="width:100%; height:200px">
+							<div class="card-body">
+							<h6>{{ other_user.username|capfirst }}, {{ other_user.biodatamodel.age }}<a href="#" class="float-right"><i class="fas fa-envelope"></i></a></h6>
+							<div class="">
+								Match <span class="float-right text-danger">{{ i.1}}%</span>
+							</div>
+							</div>
+						</div>
+					</a>
+				{% endif %}
+			{% endfor %}
+		{% endif %}	
+	{% endfor %}
+	</div>
+</div>
+			    
+{% endblock %}

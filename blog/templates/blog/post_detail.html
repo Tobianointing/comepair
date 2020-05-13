@@ -1,0 +1,38 @@
+{% extends 'basetwo.html' %}
+{% load static %}
+{% block title %} Blog Posts {% endblock %}
+
+
+{% block content3 %}
+{% endblock %}
+
+{% block content2 %}
+
+<div class="w-md-75">
+	<div class="card mb-4">
+		<div class="card-header text-gray-800">
+		  <img class="img-profile rounded-circle" style="height: 3rem; width: 3rem;" src="{{ object.author.profile.image.url }}">
+		  <a class="mr-2" href="{% url 'author-posts' object.author.username %}">{{ object.author|capfirst }}</a>
+		  <small class="text-muted">{{ object.date_posted|date:"F d, Y" }}</small>
+		  {% if object.author == user %}
+          <div class="dropdown no-arrow float-right">
+            <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-800"></i>
+            </a>
+            <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
+
+              <a class="dropdown-item" href="{% url 'post-update' object.id %}">update</a>
+              <a class="dropdown-item" href="{% url 'post-delete' object.id %}">delete</a>
+              
+            </div>
+          </div>
+         {% endif %}
+		</div>
+		<div class="card-body text-gray-800">
+		  <h4>{{ object.title }}</h4>
+		  <p>{{ object.content }}</p>
+		</div>
+	</div>
+</div>
+
+{% endblock %}

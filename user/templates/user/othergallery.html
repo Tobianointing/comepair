@@ -1,0 +1,36 @@
+{% extends 'user/otherprofiles.html' %}
+{% load static %}
+{% load photo_tags %}
+{% load widget_tweaks %}
+
+{% block title %} Gallery {% endblock %}
+          {% block content4 %}
+            {% if images %}
+            <div class="card-group mt-2">
+              {% for image in images %}
+                {% with image|split:'.' as strs %}
+                  {% with strs|length as str_arr_len %}
+                    {% with str_arr_len|add:'-1' as ext_idx %}
+                      {% if strs|get_by_index:ext_idx == 'jpg' or 'png' %}
+                      
+                          <span>
+                          <a href="{{ MEDIA_URL }}user_{{object.id}}/{{ image }}">
+                            <img class="img-thumbnail" style="width: 10rem; height: 10rem" src="{{ MEDIA_URL }}user_{{object.id}}/{{ image }}">
+                          </a>
+                        </span>
+                        
+                      {% endif %}
+                    {% endwith %}
+                  {% endwith %}
+                {% endwith %}
+                {% if forloop.counter|divisibleby:4 %}
+                  <div class="clear"></div>
+                {% endif %}
+              {% endfor %}
+              </div>
+            {% else %}
+              <p>No image available.</p>
+            {% endif %}
+            </div>
+        {% endblock %}
+        <!-- /.container-fluid -->

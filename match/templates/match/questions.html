@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<body>
+	<div class="container">
+		{% if is_paginated %}
+		{% for question in questions %}
+			<h1>{{ question.question_text }}</h1>	
+			<form method="POST">{% csrf_token %}
+				{% for choice in question.choice_set.all %}
+					<input type="radio" name="choice" id="{{ forloop.counter }}" value="{{ forloop.counter }}">
+					<label for="choice{{ forloop.counter }}">{{ choice.choice_text }}</label><br>
+				{% endfor %}
+				<h2>How do you want your Match to answer?</h2>
+				<select name="acceptableAnswer" required="" id="acceptableAnswer_id" multiple="">
+				{% for choice in question.choice_set.all %}
+					<option value="{{ forloop.counter }}">{{ choice.choice_text }}</option>
+				{% endfor %}
+				</select>
+				<h2>How important is this question to you ?</h2>
+				{% for importance in importances %}
+					<input type="radio" name="importance" id="importance{{ forloop.counter }}" value="{{ forloop.counter }}">
+					<label for="choice{{ forloop.counter }}">{{ importance }}</label><br>
+				{% endfor %}
+				{% if page_obj.has_next %}
+					<a class='float-right btn btn-outline-info' href="?page={{ page_obj.next_page_number }}">Next</a>
+				{% endif %}
+			</form>
+		{% endfor %}
+		{% endif %}
+
+			{% if page_obj.has_previous %}
+				<a class="btn btn-outline-info" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+			{% endif %}
+			
+	</div>
+</body>
+{% endblock %}

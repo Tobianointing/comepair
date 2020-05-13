@@ -1,0 +1,48 @@
+{% extends 'basetwo.html' %}
+{% load static %}
+{% block title %} Blog Posts {% endblock %}
+
+
+{% block content3 %}
+{% endblock %}
+
+{% block create %}
+<!--  create post -->
+<li class="nav-item mr-2">
+  <a class="nav-link" style="color: #365dcd;" href="{% url 'post-create' %}">
+	<button class="btn btn-outline-primary p-n2">Create Post</button>
+ </a>
+</li>
+{% endblock %}
+
+{% block content2 %}
+<div class="w-md-75">
+{% for post in posts %}
+	<div class="card mb-4">
+		<div class="card-header text-gray-800">
+		  <img class="img-profile rounded-circle" style="height: 3rem; width: 3rem;" src="{{ post.author.profile.image.url }}">
+		  <a class="mr-2" href="{% url 'author-posts' post.author.username %}">{{ post.author|capfirst }}</a>
+		  <small class="text-muted">{{ post.date_posted|date:"F d, Y" }}</small>
+		  {% if post.author == user %}
+          <div class="dropdown no-arrow float-right">
+            <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-800"></i>
+            </a>
+            <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
+
+              <a class="dropdown-item" href="{% url 'post-update' post.id %}">update</a>
+              <a class="dropdown-item" href="{% url 'post-delete' post.id %}">delete</a>
+              
+            </div>
+          </div>
+         {% endif %}
+		</div>
+		<div class="card-body text-gray-800">
+		  <h4><a href="{% url 'post-detail' post.id %}">{{ post.title }}</a></h4>
+		  <p>{{ post.content }}</p>
+		</div>
+	</div>
+{% endfor %}
+</div>
+{% endblock %}
+ 

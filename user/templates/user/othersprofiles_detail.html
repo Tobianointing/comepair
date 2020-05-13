@@ -1,0 +1,21 @@
+{% extends 'basetwo.html' %}
+{% load static %}
+{% block title %} Profile {% endblock %}
+
+{% block content2 %}
+  <h5 class="border-bottom border-dark p-2 mt-2 mb-4 text-center text-gray-900">My BioData</h5>
+  <div class="d-flex flex-column mt-2 bd-highlight text-gray-900">
+    <div class="p-2 bd-highlight"><i style="color: #224abe" class="fas fa-sort-amount-up"></i></i><span class="ml-4">{{ object.user.biodatamodel.height|capfirst }}</span></div>
+    <div class="p-2 bd-highlight"><i style="color: #224abe" class="fas fa-praying-hands"></i></i><span class="ml-4">{{ object.user.biodatamodel.religion|capfirst }}</span></div>
+    <div class="p-2 bd-highlight"><i style="color: #224abe" class="far fa-eye"></i><span class="ml-4">{{ object.user.biodatamodel.eye_color|capfirst }}</span></div>
+    <div class="p-2 bd-highlight "><i><img style="width: 1rem; height: 1.5rem;" src="{% static 'img/afro.png' %}"></i><span class="ml-4">{{ object.user.biodatamodel.hair_color|capfirst }}</span></div>
+    <div class="p-2 bd-highlight"><i style="color: #224abe" class="fas fa-wine-bottle"></i><span class="ml-4">{{ object.user.usermoreinfomodel.do_you_take_alcohol|capfirst }}</span></div>
+    <div class="p-2 bd-highlight"><i style="color: #224abe" class="fas fa-smoking"></i></i><span class="ml-4">{{ object.user.usermoreinfomodel.do_you_smoke|capfirst }}</span></div>
+  </div>
+
+  <h3 class="border-bottom border-dark my-3 text-gray-900">Short Description</h3>
+  <div class="input-group flex-nowrap text-gray-900">
+    {{ object.user.biodatamodel.describe|capfirst }}
+  </div>
+{% endblock %}
+<!-- /.container-fluid -->

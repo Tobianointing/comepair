@@ -1,0 +1,26 @@
+{% extends 'basetwo.html' %}
+{% load static %}
+{% block title %} Profile {% endblock %}
+
+{% block content2 %}
+	  <div class="d-flex flex-column mt-2 bd-highlight text-gray-900">
+	  	
+	    <div class="p-2 bd-highlight"><span class="">Hobbies</span>:
+	    	{% for hobby in user.usermoreinfomodel.hobby %}
+	    	<p class=""><i class="fas fa-heart"></i>  {{ hobby }}</p>
+	    	{% endfor %}
+    	</div>
+
+    	<div class="p-2 bd-highlight"><span class="">Sport</span>:
+	    	{% for sport in user.usermoreinfomodel.sport %}
+	    	<p class=""><i class="fas fa-heart"></i>  {{ sport }}</p>
+	    	{% endfor %}
+    	</div>
+
+    	<div class="p-2 bd-highlight"><span class="">Music</span>:
+	    	{% for music in user.usermoreinfomodel.music %}
+	    	<p class=""><i class="fas fa-heart"></i>  {{ music }}</p>
+	    	{% endfor %}
+    	</div>
+	    
+{% endblock %}

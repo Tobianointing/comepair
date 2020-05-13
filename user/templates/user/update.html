@@ -1,0 +1,75 @@
+{% extends 'match/base.html' %}
+{% load static %}
+{% block title %} Profile Update {% endblock %}
+{% load crispy_forms_tags %}
+{% load widget_tweaks %}
+
+{% block content %}
+<body class="bg-gradient-primary">
+	<div class="container">
+		<div class="card  border-0 p-3 shadow-lg my-5">
+			<div class="card-body p-0">
+				<!-- Nested Row within Card Body -->
+				<div class="row">
+					<div class="container">	
+						<form class="needs-validation" method="POST" enctype="multipart/form-data" novalidate="True">{% csrf_token %}
+							<h5 style="color: #4e73df">Profile</h5>
+							{{ u_form|crispy }}
+							<div class="mt-2">
+								{{ p_form|crispy }}
+							</div>
+							<div class="my-5 border-info">
+								<h5 style="color: #4e73df">Biodata</h5>
+							{% for field in b_form.visible_fields %}
+				                  <div class="rounded border-info  mt-3 shadow h-100 py-1" style="width: 800px">
+				                    <label class="text-dark text-gray-900 col-sm-2 col-form-label">{{ field.label }} </label>
+				                    {{ field }}
+				                  </div>
+				              {% endfor %}
+				              </div>
+
+							<div class="my-5 border-info">
+								<h5 class="" style="color: #4e73df">Interests</h5>
+							{% for field in h_form.visible_fields %}
+				                  <div class="rounded border-info  mt-3 shadow h-100 py-1" style="width: 800px">
+				                    <label class="text-dark text-gray-900 col-sm-2 col-form-label">{{ field.label }} </label>
+				                    {{ field }}
+				                  </div>
+				              {% endfor %}
+				              </div>
+							<button type="submit" class="btn mb-2 btn-outline-primary float-right">Update</button>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+    <script>
+	// Example starter JavaScript for disabling form submissions if there are invalid fields
+	(function() {
+	  'use strict';
+	  window.addEventListener('load', function() {
+	    // Fetch all the forms we want to apply custom Bootstrap validation styles to
+	    var forms = document.getElementsByClassName('needs-validation');
+	    // Loop over them and prevent submission
+	    var validation = Array.prototype.filter.call(forms, function(form) {
+	      form.addEventListener('submit', function(event) {
+	        if (form.checkValidity() === false) {
+	          event.preventDefault();
+	          event.stopPropagation();
+	        }
+	        form.classList.add('was-validated');
+	      }, false);
+	    });
+	  }, false);
+	})();
+	</script>
+	<script>
+	$(function () {
+	$("#id_date_of_birth").datepicker({
+	format:'dd/mm/yyyy',
+	});
+	});
+	</script>
+</body>
+{% endblock content %}

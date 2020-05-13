@@ -1,0 +1,41 @@
+{% extends 'basetwo.html' %}
+{% load static %}
+{% load photo_tags %}
+{% load widget_tweaks %}
+
+{% block title %} Gallery {% endblock %}
+          {% block content2 %}
+            {% if images %}
+            <div class="card-group mt-2">
+              {% for image in images %}
+                {% with image|split:'.' as strs %}
+                  {% with strs|length as str_arr_len %}
+                    {% with str_arr_len|add:'-1' as ext_idx %}
+                      {% if strs|get_by_index:ext_idx == 'jpg' or 'png' %}
+                      
+                        <span>
+                          <a href="{{ MEDIA_URL }}user_{{user.id}}/{{ image }}">
+                            <img class="img-thumbnail" style="width: 10rem; height: 10rem" src="{{ MEDIA_URL }}user_{{user.id}}/{{ image }}" alt="{{ image }}">
+                          </a>
+                        </span>
+                        
+                      {% endif %}
+                    {% endwith %}
+                  {% endwith %}
+                {% endwith %}
+                {% if forloop.counter|divisibleby:4 %}
+                  <div class="clear"></div>
+                {% endif %}
+              {% endfor %}
+              </div>
+            {% else %}
+              <p>No image available.</p>
+            {% endif %}
+            <div class="row float-right">
+              <form method="POST" class="user mb-3" enctype="multipart/form-data">{% csrf_token %}
+                {% render_field form.gallery_image class="btn-sm btn-outline-primary" name="gallery_image" accept="image/*" required="" id="id_gallery_image" type="file" %}
+                <button class="btn-sm btn-primary">Save</button>
+              </form>
+            </div>
+        {% endblock %}
+        <!-- /.container-fluid -->
