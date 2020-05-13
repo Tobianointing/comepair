@@ -10,6 +10,7 @@ urlpatterns = [
     path('match/', include('match.urls')),
     path('user/', include('user.urls')),
     path('blog/', include('blog.urls')),
+    path('chat/', include('chat.urls'))
 ]
 
 if settings.DEBUG:
