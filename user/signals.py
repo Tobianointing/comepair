@@ -47,6 +47,15 @@ def create_directory(sender, instance, created, **kwargs):
 		os.makedirs(path)
 
 
+@receiver(post_save, sender=User)
+def create_gallery(sender, instance, created, **kwargs):
+	if created:
+		Gallery.objects.create(user=instance)
+
+@receiver(post_save, sender=User)
+def save_gallery(sender, instance, **kwargs):
+	instance.gallery.save()
+
   
 # @receiver(post_save, sender=Gallery)
 # def image_directory_path(sender, instance, created,**kwargs):

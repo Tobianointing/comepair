@@ -5,6 +5,8 @@ from django.urls import reverse
 from django.utils.text import slugify
 import datetime
 
+
+
 # Create your models here.
 class ListField(models.TextField):
 	description = "Stores a python list"
@@ -105,8 +107,10 @@ class Gallery(models.Model):
 	user = models.OneToOneField(User, on_delete=models.CASCADE)
 	def image_directory_path(instance, filename):
 		return f'user_{instance.user.id}/{filename}'
-	gallery_image = models.ImageField(upload_to=image_directory_path)
+	gallery_image = models.ImageField(upload_to=image_directory_path, default="image.png")
 
+	def __str__(self):
+		return f'{self.user.username} Gallery'
 
 
 class UserMoreInfoModel(models.Model):
@@ -132,11 +136,18 @@ class UserMoreInfoModel(models.Model):
 	]
 
 	CH2 = [
-	('once a year', 'once a year'), 
-	('once a month', 'once a month'), 
-	('once a week', 'once a week'), 
-	('daily', 'daily')
+	('Non-smoker', 'Non-smoker'), 
+	('Occasional smoker', 'Occasional smoker'), 
+	('Smoker', 'Smoker')
 	]
+	
+	CH3 = [
+		('Never', 'Never'), 
+		('On special occasion', 'On special occasion'), 
+		('Once a week', 'Once a week'), 
+		('Few times a week', 'Few times a week'), 
+		('Daily', 'Daily')
+		]
 
 	MUSIC = [
 	    ('rap', 'rap'), ('gospel', 'gospel'),
@@ -156,11 +167,11 @@ class UserMoreInfoModel(models.Model):
 	    ]
 
 	user = models.OneToOneField(User, on_delete=models.CASCADE)
-	hobby                     = ListField(max_length= 100,)
-	do_you_take_alcohol       = models.CharField(max_length= 100, choices=CH2)
-	do_you_smoke              = models.CharField(max_length= 100, choices=CH2)
-	sport                     = ListField(max_length= 100)
-	music                     = ListField(max_length= 100)
+	hobby                     = ListField(max_length= 300,)
+	do_you_take_alcohol       = models.CharField(max_length= 500, choices=CH3, default="Never")
+	do_you_smoke              = models.CharField(max_length= 500, choices=CH2, default="Non-smoker")
+	sport                     = ListField(max_length= 300)
+	music                     = ListField(max_length= 300)
 
 	def __str__(self):
 		return f'{self.user.username} Hobbies'
@@ -174,8 +185,8 @@ class BioDataModel(models.Model):
 	('> 70inches(177.80) but < 75inches(190.50cm)', '> 70inches(177.80) but < 75inches(190.50cm)'),
 	('> 75inches(190.50cm) but < 80inches(203.20cm)', '> 75inches(190.50cm) but < 80inches(203.20cm)'),
 	('> 80inches(203.20cm) but < 85inches(215.90cm)', '> 80inches(203.20cm) but < 85inches(215.90cm)'),
-	('> 85inches(215.90cm) but < 90inches(228.6)', '> 85inches(215.90cm) but < 90inches(228.6)'),
-	('> 60inches(152.40cm)', '> 60inches(152.40cm)')
+	('> 85inches(215.90cm) but < 90inches(228.6)', '> 85inches(215.90cm) but < 90inches(228.6cm)'),
+	('> 90inches(228.6cm)', '> 90inches(228.6cm))')
 	]
 
 
@@ -219,7 +230,8 @@ class BioDataModel(models.Model):
 	age = models.IntegerField()
 	sex = models.CharField(max_length= 100, choices=SEX)
 	religion = models.CharField(max_length= 100, choices=RELIGION_CH)
-
+	
+	institution = models.CharField(max_length=100, default="Funaab")
 	describe = models.CharField(max_length=100)
 
 	def save(self, *args, **kwargs):

@@ -10,7 +10,9 @@ from .models import (
 	User_Answer,
 	Question 
 	)
+from chat.models import Notification
 
+from chat.models import Thread
 from itertools import chain
 import math
 import sys
@@ -123,19 +125,29 @@ def satisfaction(profile, other_profile):
 			answer_value = IMPORTANCE[my_answers[answer]['importance']]
 			# print(answer_value)
 			possible_points += answer_value
+			
 			# print(possible_points)
 			# print('\n')
 			# Other_profile gets correct points if their answer is in my acceptableAnswers
 			if str(otherp_answers[answer]['answer']) in my_answers[answer]['acceptableAnswers']:
 				correct_points += answer_value
 		print(possible_points)
+	if possible_points == 0:
+		possible_points = 1
 	return float(correct_points) / float(possible_points)
 
-
+def notification(request):
+        notification = Notification.objects.filter(notification_user=request.user, notification_read=False).order_by('-notification_chat__timestamp')[:1]
+        notification_read = Notification.objects.filter(notification_user=request.user, notification_read=True)
+        return {
+            'notification':notification,
+            'notification_read':notification_read
+        }
+	
 @login_required
 def home(request):
-
-	return render(request, 'match/home.html')
+	context = notification(request)
+	return render(request, 'match/home.html', context)
 
 
 def match(request):

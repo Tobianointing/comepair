@@ -1,5 +1,6 @@
 {% extends 'match/base.html' %}
 {% load static %}
+{% load widget_tweaks %}
 
 {% block title %} Biodata {% endblock %}
 {% block content %}
@@ -50,7 +51,7 @@
   <script>
     $(function () {
     $("#id_date_of_birth").datepicker({
-      format:'dd/mm/yyyy',
+      format:'yyyy-mm-dd',
     });
   });
   </script>
