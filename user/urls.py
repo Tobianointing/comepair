@@ -46,7 +46,7 @@ urlpatterns = [
     #gallery url
     path('gallery', gallery, name='gallery'),
 
-    path('hobbies/', hobb, name='hobbies' ),
+    path('hobbies/', hobb, name='hobbies'),
 
     path('profile/', profile, name='profile'),
     # path('otherprofiles/<slug:slug>/', ProfileDetailView.as_view(), name='otherprofiles'),

@@ -11,6 +11,7 @@
             <div class="p-2 bd-highlight "><i><img style="width: 1rem; height: 1.5rem;" src="{% static 'img/afro.png' %}"></i><span class="ml-4">{{ user.biodatamodel.hair_color|capfirst }}</span></div>
             <div class="p-2 bd-highlight"><i style="color: #224abe" class="fas fa-wine-bottle"></i><span class="ml-4">{{ user.usermoreinfomodel.do_you_take_alcohol|capfirst }}</span></div>
             <div class="p-2 bd-highlight"><i style="color: #224abe" class="fas fa-smoking"></i></i><span class="ml-4">{{ user.usermoreinfomodel.do_you_smoke|capfirst }}</span></div>
+            <div class="p-2 bd-highlight"><i style="color: #224abe" class="fas fa-university"></i></i><span class="ml-4">{{ user.biodatamodel.institution|capfirst }}</span></div>
           </div>
 
           <h3 class="border-bottom border-dark my-3 text-gray-900">Short Description</h3>

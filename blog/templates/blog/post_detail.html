@@ -12,7 +12,7 @@
 	<div class="card mb-4">
 		<div class="card-header text-gray-800">
 		  <img class="img-profile rounded-circle" style="height: 3rem; width: 3rem;" src="{{ object.author.profile.image.url }}">
-		  <a class="mr-2" href="{% url 'author-posts' object.author.username %}">{{ object.author|capfirst }}</a>
+		  <a class="mr-2 pl-3 text-decoration-none" href="{% url 'author-posts' object.author.username %}">{{ object.author|capfirst }}</a>
 		  <small class="text-muted">{{ object.date_posted|date:"F d, Y" }}</small>
 		  {% if object.author == user %}
           <div class="dropdown no-arrow float-right">
@@ -28,7 +28,7 @@
           </div>
          {% endif %}
 		</div>
-		<div class="card-body text-gray-800">
+		<div class="card-body mb-n3 mt-n2 mx-n2 pb-1 pt-3 text-gray-800">
 		  <h4>{{ object.title }}</h4>
 		  <p>{{ object.content }}</p>
 		</div>

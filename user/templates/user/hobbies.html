@@ -9,12 +9,18 @@
 				<!-- Nested Row within Card Body -->
 				<div class="row">
 					<div class="container">	
+						<div class="text-primary h4 mb-2">
+							Interests
+						</div>
 						<form class="needs-validation" method="POST" novalidate="True">{% csrf_token %}
 							{% for field in form.visible_fields %}
 								<div class="form-group border-info">
 									<div class="rounded border-info  mt-2 shadow h-100 py-1">
 										<label class="text-dark col-sm-2 col-form-label">{{ field.label }} </label>
 										{{ field }}
+										{% if field.help_text %}
+											<small>{{ field.help_text }}</small>
+										{% endif %}
 									</div>
 					 			</div>
 							{% endfor %}

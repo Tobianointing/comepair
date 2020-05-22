@@ -1,0 +1,62 @@
+{% extends 'basetwo.html' %}
+{% load static %}
+{% load chattags %}
+
+  {% block xstyle %}
+   <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
+  {% endblock %}
+
+{% block content3 %}
+{% endblock %}
+
+ 
+<body>
+    {% block content2 %}
+
+    {% block navbar %}
+    {% endblock %}
+    <div class="">
+        <h3 class="pt-4">Recent Messages</h3>
+    </div>
+    
+    <div class="container mb-3">
+    <div class="headind_srch">
+        <div class="srch_bar">
+            <div class="stylish-input-group">
+                <input type="text" class="search-bar"  placeholder="Search" >
+            </div>
+        </div>
+    </div>
+    <div class="inbox_chat scroll">
+        {% for object in threads %}
+            {% get_other_user user object as other_user %}
+            <div class="chat_list active_chat">
+                <a class="text-decoration-none" href="{% url 'chat:chat-message' other_user.username %}">
+                    <div class="chat_people">
+                        <div class="float-left">
+                            <img class="rounded-circle mr-4" style="width: 4rem; height: 4rem;" src="{{ other_user.profile.image.url }}" alt="sunil">
+                        </div>
+                        
+                        <span class="">{{ other_user.username|capfirst }}<small class="float-right">{{ object.chatmessage_set.last.timestamp|time:"P"}} | {{ object.chatmessage_set.last.timestamp|date:"M d"}}</small></span>
+                        <p class="text-dark">{{ object.chatmessage_set.last.message }}</p>
+                        
+                    </div>
+                </a>
+            </div>
+    
+        {% endfor %}
+        <!-- <div class="chat_list">
+        <div class="chat_people">
+            <div class="chat_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"> </div>
+            <div class="chat_ib">
+            <h5>Sunil Rajput <span class="chat_date">Dec 25</span></h5>
+            <p>Test, which is a new approach to have all solutions 
+                astrology under one roof.</p>
+            </div>
+        </div>
+        </div> -->
+        
+    </div>
+    </div>
+    {% endblock %}
+</body>

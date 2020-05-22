@@ -31,7 +31,7 @@
 						<div class="form-group">
 							<h3 class="text-dark">How do you want your Match to answer?</h3>
 						    <div class="form-check">
-						     <select class="selectpicker" name="acceptableAnswer" multiple data-width="fit">
+						     <select class="selectpicker" name="acceptableAnswer" multiple data-width="fit" required>
 						     	{% for choice in question.choice_set.all %}
 						     		<option value="{{ forloop.counter }}">{{ choice.choice_text }}</option>
 						     	{% endfor %}

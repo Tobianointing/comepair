@@ -82,6 +82,7 @@ def biodata(request):
 			newitem.describe = form.cleaned_data['describe']
 			newitem.religion = form.cleaned_data['religion']
 			newitem.sex = form.cleaned_data['sex']
+			newitem.institution = form.cleaned_data['institution']
 			newitem.save()
 
 			return redirect('hobbies')

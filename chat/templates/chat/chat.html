@@ -1,0 +1,136 @@
+{% extends 'match/base.html' %}
+{% load static %}
+{% load chattags %}
+
+	{% block style %}
+  		<link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
+	{% endblock %}
+
+{% block content %}
+<body>
+<div class="container">
+  <div class="inbox_msg row">
+	
+
+	<!-- CHAT box -->
+
+	<div class="mesgs">
+	  <div class="msg_history">
+		{% get_other_user user object as other_user %}
+
+		<div class="border-bottom bg-primary sticky-top" style="color:floralwhite;">
+			<img class="rounded-circle p-1 m-2" style="width: 4rem; height: 4rem;" src="{{ other_user.profile.image.url }}" alt="sunil">
+			<span class="h4">{{ other_user|capfirst }}</span>
+		</div>
+
+		{% for chat in object.chatmessage_set.all %}
+		{% if chat.user != user %}
+		<div class="incoming_msg mb-4">
+		  <div class="received_msg">
+			<div class="received_withd_msg">
+			  <p>{{ chat.message }}</p>
+			  <span class="time_date">{{ chat.timestamp|time:"P"}} | {{ chat.timestamp|date:"M d"}}</span>
+			  <input type="hidden", id='dateTime1' value='{{ chat.timestamp|time:"P"}} | {{ chat.timestamp|date:"M d"}}' />
+			</div>
+		  </div>
+		</div>
+		{% endif %}
+		{% if chat.user == user %}
+		<div class="outgoing_msg">
+		  <div class="sent_msg">
+			<p>{{ chat.message }}</p>
+			<span class="time_date">{{ chat.timestamp|time:"P"}} | {{ chat.timestamp|date:"M d"}}</span>
+			<input type="hidden", id='dateTime2' value='{{ chat.timestamp|time:"P"}} | {{ chat.timestamp|date:"M d"}}' />
+		 </div>
+		</div>
+		{% endif %}
+		{% endfor %}
+	  </div>
+	  <div class="type_msg">
+		<div class="input_msg_write">
+			<form id="form" method="POST">{% csrf_token %}
+				<input type="hidden" id='myUsername' value="{{ user.username }}" />
+				
+				<input type="text" class="write_msg ml-2" placeholder="Type a message" />
+				<button class="msg_send_btn p-2 mr-2" id="btn" type="submit"><i class="fa fa-paper-plane" aria-hidden="true"></i></button>
+			</form>
+		</div>
+	  </div>
+	</div>
+
+  </div>
+  
+</div>
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/reconnecting-websocket/1.0.0/reconnecting-websocket.js"></script>
+
+	<script>
+	// websocket scripts
+	console.log(window.location)
+	var loc = window.location
+	var formData = $("#form")
+	var msgInput = $(".write_msg")
+	var chatHolder = $("#chat-items")
+	var me = $("#myUsername").val()
+	var dateTime1 = $("#dateTime1").val()
+	var dateTime2 = $("#dateTime2").val()
+
+	var wsStart = 'ws://'
+	if (loc.protocol == 'https:'){
+		wsStart = 'wss://'
+	}
+
+	var endpoint = wsStart + loc.host + loc.pathname
+	var socket = new ReconnectingWebSocket(endpoint)
+
+	socket.onmessage = function(e){
+		console.log("message", e)
+		var chatDataMsg = JSON.parse(e.data)
+		var me = $("#myUsername").val()
+		var monthNames = [ "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" ];
+		var dt = new Date();
+		var time = dt.getHours() + ':' + dt.getMinutes() + " | " +  monthNames[dt.getMonth()] + " " + dt.getDate();
+		
+		if(chatDataMsg.username == me){
+			$(".msg_history").append('<div class="outgoing_msg">' + '<div class="sent_msg">' + '<p>' + chatDataMsg.message + '</p>' + '<span class="time_date">' + time + '</span></div>' + '</div>' + '</div>'
+);
+		}
+		else{
+			$(".msg_history").append('<div class="incoming_msg"> <div class="received_msg"><div class="received_withd_msg"><p>' + chatDataMsg.message + '</p><span class="time_date">' + time + '</span></div></div></div>'
+);
+		}
+		// chatHolder.append("<li>" + chatDataMsg.message  + " via " + chatDataMsg.username + "</li>")
+	}
+	socket.onopen = function(e){
+		console.log("open", e)
+		formData.submit(function(event){
+			event.preventDefault()
+			var msgText = msgInput.val()
+
+			var finalData = {
+				'message': msgText
+			}
+			socket.send(JSON.stringify(finalData))
+			formData[0].reset()
+		});
+		
+	}
+	socket.onerror = function(e){
+		console.log("error", e)
+	}
+	socket.onclose = function(e){
+		console.log("close", e)
+	}
+
+
+	</script>
+
+</body>
+{% endblock %}
+
+
+
+
+
+
+ 
