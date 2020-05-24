@@ -137,12 +137,14 @@ def satisfaction(profile, other_profile):
 	return float(correct_points) / float(possible_points)
 
 def notification(request):
-        notification = Notification.objects.filter(notification_user=request.user, notification_read=False).order_by('-notification_chat__timestamp')[:1]
-        notification_read = Notification.objects.filter(notification_user=request.user, notification_read=True)
-        return {
-            'notification':notification,
-            'notification_read':notification_read
-        }
+	notification = Notification.objects.filter(notification_user=request.user, notification_read=False)
+	notification_read = Notification.objects.filter(notification_user=request.user, notification_read=True).order_by('-notification_chat__timestamp')[:1]
+	total = len(notification)
+	return {
+		'notification':notification,
+		'notification_read':notification_read,
+		'total': total
+	}
 	
 @login_required
 def home(request):
@@ -155,7 +157,7 @@ def match(request):
 	user_answer = User_Answer.objects.get(user_id=request.user.id)
 
 	context = match_algorithm(profiles, user_answer)
-	
+	context.update(notification(request))
 	return render(request, 'match/match.html', context)
 
 	

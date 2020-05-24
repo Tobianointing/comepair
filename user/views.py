@@ -3,6 +3,7 @@ import os
 from django.conf import settings
 from django.templatetags.static import static
 from django.contrib.auth.models import User
+from match.views import notification
 from .forms import ( 
 	SignUpForm, 
 	UserMoreInfoForm, 
@@ -97,7 +98,8 @@ def biodata(request):
 @login_required
 def profile(request):
 	user = User.objects.get(id=request.user.id)
-	context = {'user': user}
+	context = notification(request)
+	context['user'] = user
 	return render(request, 'user/profile.html', context)
 
 # @login_required
@@ -128,6 +130,7 @@ def gallery(request):
 	'user': user,
 	'form': form
 	}
+	context.update(notification(request))
 	return render(request, "user/gallery.html", context)
 
 
@@ -135,6 +138,7 @@ def gallery(request):
 def interest(request):
 	user = User.objects.get(id=request.user.id)
 	context = {'user': user}
+	context.update(notification(request))
 	return render(request, 'user/interest.html', context)
 
 @login_required
@@ -172,6 +176,7 @@ def other_profiles(request, slug):
 	context = { 
 			'object': obj
 	} 
+	context.update(notification(request))
 	return render(request, 'user/otherprofiles.html', context)
 
 @login_required		
@@ -188,11 +193,13 @@ def other_gallery(request, slug):
 	'object': user,
 	
 	}
+	context.update(notification(request))
 	return render(request, "user/othergallery.html", context)
 
 def other_interest(request, slug):
 	user = User.objects.get(username=slug)
 	context = {'object': user}
+	context.update(notification(request))
 	return render(request, 'user/othersinterest.html', context)	
 
 
