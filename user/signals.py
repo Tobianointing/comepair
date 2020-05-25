@@ -39,19 +39,19 @@ def create_othersprofiles(sender, instance, created, **kwargs):
 def save_othersprofiles(sender, instance, **kwargs):
 	instance.othersprofiles.save()
 
-#creation of directory for user media files
-@receiver(post_save, sender=User)
-def create_directory(sender, instance, created, **kwargs):
-	if created:
-		path = settings.MEDIA_ROOT
-		path = f'{path}/user_{instance.id}/'
-		os.makedirs(path)
+# #creation of directory for user media files
+# @receiver(post_save, sender=User)
+# def create_directory(sender, instance, created, **kwargs):
+# 	if created:
+# 		path = settings.MEDIA_ROOT
+# 		path = f'{path}/user_{instance.id}/'
+# 		os.makedirs(path)
 
-#for gallery model initiation
-@receiver(post_save, sender=User)
-def create_gallery(sender, instance, created, **kwargs):
-	if created:
-		Gallery.objects.create(user=instance)
+# #for gallery model initiation
+# @receiver(post_save, sender=User)
+# def create_gallery(sender, instance, created, **kwargs):
+# 	if created:
+# 		Gallery.objects.create(user=instance)
 
 @receiver(post_save, sender=User)
 def save_gallery(sender, instance, **kwargs):

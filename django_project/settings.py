@@ -1,5 +1,5 @@
 import os
-
+import cloudinary
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -19,6 +19,7 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
+    'cloudinary',
     'channels',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -131,7 +132,7 @@ STATICFILES_DIRS = [
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
-LOGIN_REDIRECT_URL = 'home'
+LOGIN_REDIRECT_URL = 'post-home'
 LOGIN_URL = 'login'
 LOGOUT_REDIRECT_URL = 'login'
 
@@ -146,3 +147,9 @@ EMAIL_HOST_PASSWORD = 'pvbbbqkdbyyiwjmu'
 # CHAT_WS_SERVER_HOST = 'localhost'
 # CHAT_WS_SERVER_PORT = 5002
 # CHAT_WS_SERVER_PROTOCOL = 'ws'
+
+cloudinary.config( 
+  cloud_name = "comepair", 
+  api_key = "745447217137673", 
+  api_secret = "QsrWfPDmQIg5ACtGeV1_IqSYPiA" 
+)

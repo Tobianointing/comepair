@@ -4,6 +4,7 @@ from django.conf import settings
 from django.templatetags.static import static
 from django.contrib.auth.models import User
 from match.views import notification
+
 from .forms import ( 
 	SignUpForm, 
 	UserMoreInfoForm, 
@@ -11,12 +12,14 @@ from .forms import (
 	GalleryForm,
 	UserUpdateForm,
 	ProfileUpdateForm,
+	GalleryNewForm
 	)
 from .models import (
 	UserMoreInfoModel, 
 	Profile,  
 	OthersProfiles, 
-	BioDataModel
+	BioDataModel,
+	GalleryNew
 	)
 from django.contrib.auth.decorators import login_required 
 from django.views.generic import TemplateView, DetailView, ListView
@@ -58,7 +61,7 @@ def hobb(request):
 			newitem.music = clean['music']
 			newitem.save()
 		
-			return redirect('home')
+			return redirect('post-home')
 	else:
 			form = UserMoreInfoForm()
 
@@ -102,33 +105,30 @@ def profile(request):
 	context['user'] = user
 	return render(request, 'user/profile.html', context)
 
-# @login_required
-# class ProfileDetailView(DetailView):
-# 	model = OthersProfiles
-
-
 # Images Gallery view
 def gallery(request):
+	user = User.objects.get(username=request.user.username)
 	if  request.method =='POST':
-		form = GalleryForm(request.POST, request.FILES, instance=request.user.gallery)
+		# # gallery_image = request.POST.get('galleryimage')
+		# print(gallery_image)
+		# print('.....hey.....')
+		# user.gallerynew_set.create(gallery_image=gallery_image)
+		form = GalleryNewForm(request.POST, request.FILES)
 		if form.is_valid():
-			form.save()
+			print(form.cleaned_data)
+			user.gallerynew_set.create(gallery_image=form.cleaned_data.get('image'))
+			# form.save()
 			print('yeah!!')
 			return redirect('gallery')
 	else:
-		form = GalleryForm()
+		form = GalleryNewForm()
 
-	user = User.objects.get(id=request.user.id)
-	MEDIA_URL = settings.MEDIA_URL
-	path = settings.MEDIA_ROOT
-	img_list = os.listdir(path + f'/user_{request.user.id}')
-	print(MEDIA_URL)
+	galleries = GalleryNew.objects.filter(user=request.user)
 
 	context = {
-	'images' : img_list, 
-	'MEDIA_URL': MEDIA_URL,
-	'user': user,
-	'form': form
+		"galleries": galleries,
+		'user': user,
+		'form': form
 	}
 	context.update(notification(request))
 	return render(request, "user/gallery.html", context)
@@ -182,16 +182,11 @@ def other_profiles(request, slug):
 @login_required		
 def other_gallery(request, slug):
 	user = User.objects.get(username=slug)
-	MEDIA_URL = settings.MEDIA_URL
-	path = settings.MEDIA_ROOT
-	img_list = os.listdir(path + f'/user_{user.id}')
-	print(MEDIA_URL)
+	obj =  GalleryNew.objects.filter(user=user)
 
-	context = {
-	'images' : img_list, 
-	'MEDIA_URL': MEDIA_URL,
-	'object': user,
-	
+	context = { 
+			'galleries': obj,
+			'object': user
 	}
 	context.update(notification(request))
 	return render(request, "user/othergallery.html", context)
@@ -202,10 +197,11 @@ def other_interest(request, slug):
 	context.update(notification(request))
 	return render(request, 'user/othersinterest.html', context)	
 
+def gallery_new(request):
+	galleries = GalleryNew.objects.filter(user=request.user)
 
-# @login_required
-# def secret_page(request):
-# 	return render(request, 'secret_page.html')
+	context = {
+		"galleries": galleries
+	}
 
-# class SecretPage(LoginRequiredMixin, TemplateView):
-# 	template_name = 'secret_page.html'
+	return render(request, 'user/gallerynew.html', context)
