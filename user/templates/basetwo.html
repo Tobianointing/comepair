@@ -7,10 +7,6 @@
 {% block title %} Home {% endblock %}
 
 
-{% block style %}
-  <!-- JAVASCRIPT -->
-  <script type="text/javascript" src="{% static 'photo/js/simple-lightbox.min.js' %}"></script>
-{% endblock %}
 
 {% block content %}
 <body id="page-top">
@@ -76,7 +72,7 @@
             <a class="collapse-item" href="{% url 'profile' %}">Profile</a>
             <a class="collapse-item" href="{% url 'gallery' %}">Gallery</a>
             <a class="collapse-item" href="{% url 'interest' %}">Interests</a>
-            <a class="collapse-item" href="#">Blog</a>
+            <a class="collapse-item" href="{% url 'author-posts' user.username %}">Blog</a>
           </div>
         </div>
       </li>
@@ -356,21 +352,5 @@
     </div>
   </div>
 
-  <!-- Bootstrap core JavaScript-->
-  <script src="vendor/jquery/jquery.min.js"></script>
-  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
-  <!-- Core plugin JavaScript-->
-  <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
-
-  <!-- Custom scripts for all pages-->
-  <script src="js/sb-admin-2.min.js"></script>
-
-<!--   <script type='text/javascript'>
-    $(document).ready(function() {
-      $('.gallery a').simpleLightbox();
-    });
-  </script>
- -->
 </body>
 {% endblock %}

@@ -28,6 +28,8 @@ from django.urls import reverse
 
 
 # Create your views here.
+
+#SIGNUP VIEW
 def signup(request):
 	if  request.method =='POST':
 		form = SignUpForm(request.POST)
@@ -41,7 +43,7 @@ def signup(request):
 	}
 	return render(request, 'registration/signup.html', context)
 
-
+#USER-INFO VIEW
 def hobb(request):
 	if request.method == 'POST':
 		form = UserMoreInfoForm(request.POST)
@@ -70,6 +72,7 @@ def hobb(request):
 	}
 	return render(request, 'user/hobbies.html', context)	
 
+#BIODATA VIEW
 @login_required
 def biodata(request):
 	if request.method == 'POST':
@@ -97,7 +100,7 @@ def biodata(request):
 	}
 	return render(request, 'user/biodata.html', context)	
 
-
+#USER PROFILE VIEW
 @login_required
 def profile(request):
 	user = User.objects.get(id=request.user.id)
@@ -105,7 +108,7 @@ def profile(request):
 	context['user'] = user
 	return render(request, 'user/profile.html', context)
 
-# Images Gallery view
+# Images Gallery view Edited version 1.2
 def gallery(request):
 	user = User.objects.get(username=request.user.username)
 	if  request.method =='POST':
@@ -133,7 +136,7 @@ def gallery(request):
 	context.update(notification(request))
 	return render(request, "user/gallery.html", context)
 
-
+#USER INTEREST VIEW
 @login_required
 def interest(request):
 	user = User.objects.get(id=request.user.id)
@@ -141,6 +144,7 @@ def interest(request):
 	context.update(notification(request))
 	return render(request, 'user/interest.html', context)
 
+#USER PROFILE, BIODATA & USERINFO UPADATE VIEW
 @login_required
 def profile_update(request):
 	if  request.method == 'POST':
@@ -170,6 +174,7 @@ def profile_update(request):
 	
 	return render(request, 'user/update.html', context)
 
+#OTHER USER PROFILE
 @login_required
 def other_profiles(request, slug):
 	obj = User.objects.get(username=slug)
@@ -179,6 +184,7 @@ def other_profiles(request, slug):
 	context.update(notification(request))
 	return render(request, 'user/otherprofiles.html', context)
 
+#OTHER USER GALLERY
 @login_required		
 def other_gallery(request, slug):
 	user = User.objects.get(username=slug)
@@ -191,17 +197,11 @@ def other_gallery(request, slug):
 	context.update(notification(request))
 	return render(request, "user/othergallery.html", context)
 
+#OTHER USER INTEREST
 def other_interest(request, slug):
 	user = User.objects.get(username=slug)
 	context = {'object': user}
 	context.update(notification(request))
 	return render(request, 'user/othersinterest.html', context)	
 
-def gallery_new(request):
-	galleries = GalleryNew.objects.filter(user=request.user)
 
-	context = {
-		"galleries": galleries
-	}
-
-	return render(request, 'user/gallerynew.html', context)

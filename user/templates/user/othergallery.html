@@ -3,14 +3,14 @@
 {% load static %}
 {% load widget_tweaks %}
 
-{% block title %} GalleryNew {% endblock %}
+{% block title %} Other Gallery {% endblock %}
 
 {% block content2 %}
-    {% for gallery in galleries %}
+  {% for gallery in galleries %}
     <span class="mb-4">
       <a href="{{ gallery.gallery_image.url }}">
-        <img class="img-thumbnail" style="width: 10rem; height: 10rem" src="{{ gallery.gallery_image.url }}">
+        <img class="img-responsive" style="width: 10rem; height: 10rem" src="{{ gallery.gallery_image.url }}">
       </a>
     </span>
-    {% endfor %}
+  {% endfor %}
 {% endblock %}

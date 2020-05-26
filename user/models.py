@@ -41,45 +41,6 @@ class ListField(models.TextField):
 		return self.get_prep_value(value)
 
 
-class Hobby(models.Model):
-	hobbies = models.IntegerField()
-
-# class UserMoreInfoModel(models.Model):
-# 	user 					  = models.OneToOneField(User, on_delete=models.CASCADE)
-# 	hobby                     = ListField()
-# 	do_you_take_alcohol       = models.CharField(max_length=200)
-# 	do_you_smoke              = models.CharField(max_length=200)
-# 	sport                     = ListField()
-# 	music                     = ListField()
-
-# 	def __str__(self):
-# 		return f'{self.user.username} Hobbies'
-
-# class BioDataModel(models.Model):
-# 	user = models.OneToOneField(User, on_delete=models.CASCADE)
-# 	height = models.CharField(max_length=200)
-# 	eye_color = models.CharField(max_length=200)
-# 	hair_color = models.CharField(max_length=200)
-# 	complexion = models.CharField(max_length=200)
-# 	date_of_birth = models.DateField(default='02/04/1999')
-# 	age = models.IntegerField()
-# 	describe = models.TextField(max_length=150, default='Short description')
-# 	religion = models.CharField(max_length=50, default='christainity')
-# 	sex = models.CharField(max_length=10, default='male')
-     
-
-# 	def save(self, *args, **kwargs):
-# 		if self.date_of_birth.month > datetime.date.today().month:
-# 			self.age = datetime.date.today().year - self.date_of_birth.year
-# 		else:
-# 			self.age = (datetime.date.today().year - self.date_of_birth.year) - 1 
-
-# 		super(BioDataModel, self).save(*args, **kwargs)
-
-# 	def __str__(self):
-# 		return f'{self.user.username} BioData'
-
-
 class Profile(models.Model):
 	user = models.OneToOneField(User, default=None, null=True, on_delete=models.CASCADE)
 	image = CloudinaryField('profile_pics')

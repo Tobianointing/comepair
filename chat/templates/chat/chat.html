@@ -9,11 +9,8 @@
 {% block content %}
 <body>
 <div class="container">
-  <div class="inbox_msg row">
-	
-
+  <div class="inbox_msg row">	
 	<!-- CHAT box -->
-
 	<div class="mesgs">
 	  <div class="msg_history">
 		{% get_other_user user object as other_user %}
@@ -121,8 +118,6 @@
 	socket.onclose = function(e){
 		console.log("close", e)
 	}
-
-
 	</script>
 
 </body>

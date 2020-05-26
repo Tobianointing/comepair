@@ -1,7 +1,7 @@
 import unicodedata
 
 from django import forms
-from .models import Hobby, Profile, Gallery, BioDataModel, UserMoreInfoModel, GalleryNew
+from .models import Profile, Gallery, BioDataModel, UserMoreInfoModel, GalleryNew
 from django.contrib.auth.forms import UserCreationForm
 
 from django.contrib.auth import (
@@ -24,7 +24,6 @@ from cloudinary.forms import CloudinaryFileField
 
 
 class SignUpForm(UserCreationForm, forms.ModelForm):
-   
     first_name = forms.CharField(
     widget=forms.TextInput(attrs={
     'class':"form-control form-control-user",
@@ -119,9 +118,6 @@ class ProfileUpdateForm(forms.ModelForm):
         fields = ['image']
 
 
-
-
-
 class BioDataForm(forms.ModelForm):
     height = forms.TypedChoiceField(
         choices=BioDataModel.HEIGHT,
@@ -170,7 +166,6 @@ class BioDataForm(forms.ModelForm):
             }),
     )
 
-
     class Meta:
         model = BioDataModel
         exclude = ('user','age',)
@@ -199,6 +194,7 @@ class UserMoreInfoForm(forms.ModelForm):
     class Meta:
         model = UserMoreInfoModel
         exclude = ('user',)
+
 
 class GalleryNewForm(forms.Form):
     image = CloudinaryFileField(
