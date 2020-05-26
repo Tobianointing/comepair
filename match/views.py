@@ -85,21 +85,21 @@ def match_algorithm(profiles, user_answer):
 			# Reverse the heap and store it in the output for that profile
 		profile_output['matches'] = matches[::-1]
 		output['results'].append(profile_output)
-	print('oout')
-	print(output['results'])
+	# print('oout')
+	# print(output['results'])
 
-	print(user_answer.user.id)
+	# print(user_answer.user.id)
 	for i in output['results']:
 		if i['profileId'] == user_answer.user.id:
 			w = i
-	print(w)		
+	# print(w)		
 	for i in w['matches']:
 		if i['score'] >= 0.3:
 			matched_users.append([i['profileId'], i['score']])
 
 	all_users = User.objects.all()
 	logged_user = User.objects.get(id=user_answer.user.id)
-	print(matched_users)
+	# print(matched_users)
 
 	context = {
 	'all_users': all_users,
@@ -131,7 +131,7 @@ def satisfaction(profile, other_profile):
 			# Other_profile gets correct points if their answer is in my acceptableAnswers
 			if str(otherp_answers[answer]['answer']) in my_answers[answer]['acceptableAnswers']:
 				correct_points += answer_value
-		print(possible_points)
+		# print(possible_points)
 	if possible_points == 0:
 		possible_points = 1
 	return float(correct_points) / float(possible_points)
