@@ -9,7 +9,8 @@ from user.views import(
     biodata,
     gallery, interest, profile_update,
     other_profiles, other_gallery,
-    other_interest
+    other_interest,
+    gallery_new
     )
 
 urlpatterns = [
@@ -60,5 +61,7 @@ urlpatterns = [
     path('otherprofiles/<slug:slug>/', other_profiles, name='otherprofiles'),
     path('othergallery/<slug:slug>/', other_gallery, name='other_gallery'),
     path('otherinterest/<slug:slug>/', other_interest, name='other_interest' ),
+
+    path('gallerynew/', gallery_new, name='gallerynew')
 
 ]

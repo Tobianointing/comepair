@@ -1,7 +1,7 @@
 import unicodedata
 
 from django import forms
-from .models import Hobby, Profile, Gallery, BioDataModel, UserMoreInfoModel
+from .models import Hobby, Profile, Gallery, BioDataModel, UserMoreInfoModel, GalleryNew
 from django.contrib.auth.forms import UserCreationForm
 
 from django.contrib.auth import (
@@ -19,6 +19,7 @@ from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode
 from django.utils.text import capfirst
 from django.utils.translation import gettext, gettext_lazy as _
+from cloudinary.forms import CloudinaryFileField 
 
 
 
@@ -93,8 +94,8 @@ class SignUpForm(UserCreationForm, forms.ModelForm):
 class GalleryForm(forms.ModelForm):
 
     class Meta:
-        model = Gallery
-        fields = ['gallery_image']
+        model = GalleryNew
+        fields = ['user', 'gallery_image']
 
 class UserUpdateForm(forms.ModelForm):
     email = forms.EmailField()
@@ -104,6 +105,14 @@ class UserUpdateForm(forms.ModelForm):
         fields = ['username', 'email']
 
 class ProfileUpdateForm(forms.ModelForm):
+    image = CloudinaryFileField(
+        options = {
+            'crop': 'thumb',
+            'width': 200,
+            'height': 200,
+            'folder': 'profile_pics'
+       }
+    )
 
     class Meta:
         model = Profile
@@ -190,3 +199,15 @@ class UserMoreInfoForm(forms.ModelForm):
     class Meta:
         model = UserMoreInfoModel
         exclude = ('user',)
+
+class GalleryNewForm(forms.Form):
+    image = CloudinaryFileField(
+        options = {
+            'crop': 'thumb',
+            'width': 200,
+            'height': 200,
+            'folder': 'avatars'
+       }
+    )
+
+

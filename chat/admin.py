@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 
-from .models import Thread, ChatMessage
+from .models import Thread, ChatMessage, Notification
 
 admin.site.register(ChatMessage)
 
@@ -15,3 +15,5 @@ class ThreadAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Thread, ThreadAdmin)
+admin.site.register(Notification)
+

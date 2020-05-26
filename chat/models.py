@@ -65,3 +65,6 @@ class Notification(models.Model):
     notification_user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     notification_chat = models.ForeignKey(ChatMessage, on_delete=models.CASCADE)
     notification_read = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f'{self.notification_user.username} notification'

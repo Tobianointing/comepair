@@ -3,33 +3,7 @@
 {% block title %} Home {% endblock %}
 
 
-{% block message %}
-  <li class="nav-item dropdown no-arrow mx-1">
-    <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-      <i class="fas fa-envelope fa-fw"></i>
-      <!-- Counter - Messages -->
-          <span class="badge badge-danger badge-counter">8</span>
-        </a>
-    
-    <!-- Dropdown - Messages -->
-    <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="messagesDropdown">
-      <h6 class="dropdown-header">
-        Message Center
-      </h6>
-      {% for notifications in notification|slice:"0:4" %}
-        <a id="notification-{{notification.id}}" class="dropdown-item d-flex align-items-center" href="{% url 'chat:chat-message' notifications.notification_chat.user.username %}">
-          <div class="dropdown-list-image mr-3">
-            <img class="rounded-circle" src="{{ notifications.notification_chat.user.profile.image.url }}" alt="">
-            <div class="status-indicator bg-success"></div>
-          </div>
-          <div class="font-weight-bold">
-            <div class="text-truncate">{{ notifications.notification_chat.message }}</div>
-            <div class="small text-gray-500">{{ notifications.notification_chat.user }}· 58m</div>
-          </div>
-        </a>
-      {% endfor %}
-  </li>
-{% endblock %}
+
 
 {% block content2 %}
       <!-- Begin Main Content -->

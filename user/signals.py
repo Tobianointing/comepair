@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django.dispatch import receiver
 from .models import Profile, OthersProfiles, Gallery
 from match.models import User_Answer
+from notifications.signals import notify
 
 from django.conf import settings
 import os
@@ -38,35 +39,22 @@ def create_othersprofiles(sender, instance, created, **kwargs):
 def save_othersprofiles(sender, instance, **kwargs):
 	instance.othersprofiles.save()
 
+# #creation of directory for user media files
+# @receiver(post_save, sender=User)
+# def create_directory(sender, instance, created, **kwargs):
+# 	if created:
+# 		path = settings.MEDIA_ROOT
+# 		path = f'{path}/user_{instance.id}/'
+# 		os.makedirs(path)
 
-@receiver(post_save, sender=User)
-def create_directory(sender, instance, created, **kwargs):
-	if created:
-		path = settings.MEDIA_ROOT
-		path = f'{path}/user_{instance.id}/'
-		os.makedirs(path)
-
-
-@receiver(post_save, sender=User)
-def create_gallery(sender, instance, created, **kwargs):
-	if created:
-		Gallery.objects.create(user=instance)
+# #for gallery model initiation
+# @receiver(post_save, sender=User)
+# def create_gallery(sender, instance, created, **kwargs):
+# 	if created:
+# 		Gallery.objects.create(user=instance)
 
 @receiver(post_save, sender=User)
 def save_gallery(sender, instance, **kwargs):
 	instance.gallery.save()
 
   
-# @receiver(post_save, sender=Gallery)
-# def image_directory_path(sender, instance, created,**kwargs):
-# 	if created:
-# 		imagefile = instance.gallery_image
-# 		old_name = imagefile.name
-# 		if not old_name:
-# 			return
-# 		new_name = os.path.basename(old_name)
-# 		new_path = os.path.join(settings.MEDIA_ROOT,sender.image_directory_path(instance, new_name))
-# 		if not os.path.exists(new_path):
-# 			os.makedirs(os.path.dirname(new_path))
-# 		instance.gallery_image.name=sender.image_directory_path(instance, new_name)
-# 		instance.save()

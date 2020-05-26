@@ -4,7 +4,7 @@ import ast
 from django.urls import reverse
 from django.utils.text import slugify
 import datetime
-
+from cloudinary.models import CloudinaryField
 
 
 # Create your models here.
@@ -82,7 +82,7 @@ class Hobby(models.Model):
 
 class Profile(models.Model):
 	user = models.OneToOneField(User, default=None, null=True, on_delete=models.CASCADE)
-	image = models.ImageField(default='default.png', upload_to='profile_pics')
+	image = CloudinaryField('profile_pics')
 
 	def __str__(self):
 		return f'{self.user.username} Profile'
@@ -245,3 +245,9 @@ class BioDataModel(models.Model):
 	def __str__(self):
 		return f'{self.user.username} BioData'
 
+class GalleryNew(models.Model):
+	user = models.ForeignKey(User, on_delete=models.CASCADE)
+	gallery_image = CloudinaryField('gallery')
+
+	def __str__(self):
+		return f'{self.user.username} GalleryNew'
