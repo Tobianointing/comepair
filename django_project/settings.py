@@ -66,7 +66,8 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'django_project.wsgi.application'
+ASGI_APPLICATION = 'django_project.routing.application'
+# WSGI_APPLICATION = 'django_project.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
@@ -156,4 +157,3 @@ CHANNEL_LAYERS = {
     },
 }
 
-ASGI_APPLICATION = 'django_project.routing.application'
