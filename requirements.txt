@@ -10,10 +10,12 @@ cffi==1.14.0
 channel==0.1.0
 channels==2.4.0
 channels-redis==2.4.2
+chardet==3.0.4
 cloudinary==1.20.0
 constantly==15.1.0
 cryptography==2.9.2
 daphne==2.5.0
+defusedxml==0.6.0
 Django==3.0.2
 django-crispy-forms==1.8.1
 django-model-utils==4.0.0
@@ -29,6 +31,7 @@ jsonfield==3.1.0
 lazy-object-proxy==1.4.3
 mccabe==0.6.1
 msgpack==0.6.2
+oauthlib==3.1.0
 Pillow==7.1.1
 pqdict==1.0.0
 pyasn1==0.4.8
@@ -37,7 +40,11 @@ pycparser==2.20
 PyHamcrest==2.0.2
 pylint==2.5.2
 pyOpenSSL==19.1.0
+python-dotenv==0.13.0
+python3-openid==3.1.0
 pytz==2019.3
+requests==2.23.0
+requests-oauthlib==1.3.0
 service-identity==18.1.0
 six==1.14.0
 sqlparse==0.3.0
