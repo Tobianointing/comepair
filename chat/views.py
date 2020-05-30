@@ -8,12 +8,19 @@ from django.views.generic import DetailView, ListView
 
 from .forms import ComposeForm
 from .models import Thread, ChatMessage
+from match.views import notification
 
 
 class InboxView(LoginRequiredMixin, ListView):
     template_name = 'chat/inbox.html'
     model = Thread
     context_object_name = 'threads'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        context.update(notification(self.request))
+        return context
     
     def get_queryset(self):
         return Thread.objects.by_user(self.request.user).order_by("-timestamp")
@@ -45,6 +52,7 @@ class ThreadView(LoginRequiredMixin, FormMixin, DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['form'] = self.get_form()
+        context.update(notification(self.request))
         return context
 
     def post(self, request, *args, **kwargs):

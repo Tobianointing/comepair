@@ -3,6 +3,7 @@ import unicodedata
 from django import forms
 from .models import Profile, Gallery, BioDataModel, UserMoreInfoModel, GalleryNew
 from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import User
 
 from django.contrib.auth import (
     authenticate, get_user_model, password_validation,
@@ -88,6 +89,13 @@ class SignUpForm(UserCreationForm, forms.ModelForm):
         fields = ['first_name','last_name','email',
          'username', 'password1', 'password2'
         ]
+
+    def clean_email(self, *args, **kwargs):
+        email = self.cleaned_data.get("email")
+        if email in [x.email for x in User.objects.all()]:
+            raise forms.ValidationError("A user with this email already exist.")
+        else:
+            return email
 
 
 class GalleryForm(forms.ModelForm):

@@ -9,9 +9,10 @@ import notifications.urls
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    
     path('match/', include('match.urls')),
     path('user/', include('user.urls')),
-    path('blog/', include('blog.urls')),
+    path('', include('blog.urls')),
     path('messages/', include('chat.urls')),
     path('inbox/notifications/', include(notifications.urls, namespace='notifications')),
 ]

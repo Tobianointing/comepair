@@ -221,15 +221,15 @@
                 <h6 class="dropdown-header">
                   Message Center
                 </h6>
-                {% for notifications in notification|slice:"0:4" %}
+                {% for notifications in notification|slice:"0:5" %}
                   <a id="notification-{{notification.id}}" class="dropdown-item d-flex align-items-center" href="{% url 'chat:chat-message' notifications.notification_chat.user.username %}">
                     <div class="dropdown-list-image mr-3">
                       <img class="rounded-circle" src="{{ notifications.notification_chat.user.profile.image.url }}" alt="">
-                      <div class="status-indicator bg-success"></div>
+                      <!-- <div class="status-indicator bg-success"></div> -->
                     </div>
                     <div class="font-weight-bold">
                       <div class="text-truncate">{{ notifications.notification_chat.message }}</div>
-                      <div class="small text-gray-500">{{ notifications.notification_chat.user }}· 58m</div>
+                      <div class="small text-gray-500">{{ notifications.notification_chat.user }}· {{ notifications.notification_chat.timestamp|time:"P"}} | {{ notifications.notification_chat.timestamp|date:"M d"}}</div>
                     </div>
                   </a>
                 {% endfor %}
