@@ -12,17 +12,35 @@ from django.views.generic import (
 	)
 # Create your views here.
 
-class PostListView(ListView):
+class PostListView(LoginRequiredMixin, ListView):
 	model = Post
 	context_object_name = 'posts'
 	ordering = ['-date_posted']
 
+	def get_context_data(self, **kwargs):
+		context = super().get_context_data(**kwargs)
+
+		context.update(notification(self.request))
+		return context
+
 class PostDetailView(DetailView):
 	model = Post
+
+	def get_context_data(self, **kwargs):
+		context = super().get_context_data(**kwargs)
+
+		context.update(notification(self.request))
+		return context
 
 class PostCreateView(LoginRequiredMixin, CreateView):
 	model = Post
 	fields = ['title', 'content']
+
+	def get_context_data(self, **kwargs):
+		context = super().get_context_data(**kwargs)
+
+		context.update(notification(self.request))
+		return context
 
 	def form_valid(self, form):
 		form.instance.author = self.request.user
@@ -31,6 +49,12 @@ class PostCreateView(LoginRequiredMixin, CreateView):
 class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 	model = Post
 	fields = ['title', 'content']
+
+	def get_context_data(self, **kwargs):
+		context = super().get_context_data(**kwargs)
+
+		context.update(notification(self.request))
+		return context
 
 	def form_valid(self, form):
 		form.instance.author = self.request.user
@@ -46,31 +70,28 @@ class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 	model = Post
 	success_url = '/blog/'
 
+	def get_context_data(self, **kwargs):
+		context = super().get_context_data(**kwargs)
+
+		context.update(notification(self.request))
+		return context
+
 	def test_func(self):
 		post = self.get_object()
 		if self.request.user == post.author:
 			return True
 		return False		
 
-
-
-# def author_post(request, id):
-
-# 	posts = Post.objects.all().filter(author_id=id)
-
-# 	context = {
-# 		'posts': posts
-# 	}
-
-# 	return render(request, 'blog/author_posts.html', context)
-
-
-
-
 class AuthorPostListView(ListView):
 	model = Post
 	context_object_name = 'posts'
 	template_name = 'blog/author_posts.html'
+
+	def get_context_data(self, **kwargs):
+		context = super().get_context_data(**kwargs)
+
+		context.update(notification(self.request))
+		return context
 
 	def get_queryset(self):
 		user = get_object_or_404(User, username=self.kwargs.get('username'))

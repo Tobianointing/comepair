@@ -1,14 +1,18 @@
 import os
 import cloudinary
+
+from dotenv import load_dotenv
+
+
+load_dotenv()
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'u*_+j$2q-vp3z*=8q!4tgy6%k3ff&d0%p*5aoimgfz46t6(061'
+SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -27,6 +31,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    
     'notifications',
     'blog',
     'chat',
@@ -61,12 +66,14 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+        
             ],
         },
     },
 ]
 
-WSGI_APPLICATION = 'django_project.wsgi.application'
+ASGI_APPLICATION = 'django_project.routing.application'
+# WSGI_APPLICATION = 'django_project.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
@@ -130,11 +137,11 @@ LOGIN_URL = 'login'
 LOGOUT_REDIRECT_URL = 'login'
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST = os.environ.get('EMAIL_HOST')
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'adeyokunnuo@gmail.com'
-EMAIL_HOST_PASSWORD = 'pvbbbqkdbyyiwjmu'
+EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = 'ovcmwmflemmebvgu'
 
 
 # CHAT_WS_SERVER_HOST = 'localhost'
@@ -142,18 +149,17 @@ EMAIL_HOST_PASSWORD = 'pvbbbqkdbyyiwjmu'
 # CHAT_WS_SERVER_PROTOCOL = 'ws'
 
 cloudinary.config( 
-  cloud_name = "comepair", 
-  api_key = "745447217137673", 
-  api_secret = "QsrWfPDmQIg5ACtGeV1_IqSYPiA" 
+  cloud_name = os.environ.get('cloud_name'),
+  api_key = os.environ.get('api_key'), 
+  api_secret = os.environ.get('api_secret') 
 )
 
 CHANNEL_LAYERS = {
     'default': {
         'BACKEND': 'channels_redis.core.RedisChannelLayer',
         'CONFIG': {
-            "hosts": [('localhost', 6379)],
-        },  'ROUTING': 'django_project.routing.channel_routing',
+            "hosts": [os.environ.get('REDIS_URL', 'redis://localhost:6379')],
+        },  #'ROUTING': 'django_project.routing.channel_routing',
     },
 }
 
-ASGI_APPLICATION = 'django_project.routing.application'

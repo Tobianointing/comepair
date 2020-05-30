@@ -137,7 +137,7 @@ def satisfaction(profile, other_profile):
 	return float(correct_points) / float(possible_points)
 
 def notification(request):
-	notification = Notification.objects.filter(notification_user=request.user, notification_read=False)
+	notification = Notification.objects.filter(notification_user=request.user, notification_read=False).order_by('-notification_chat__timestamp')
 	notification_read = Notification.objects.filter(notification_user=request.user, notification_read=True).order_by('-notification_chat__timestamp')[:1]
 	total = len(notification)
 	return {

@@ -53,8 +53,8 @@ def save_othersprofiles(sender, instance, **kwargs):
 # 	if created:
 # 		Gallery.objects.create(user=instance)
 
-@receiver(post_save, sender=User)
-def save_gallery(sender, instance, **kwargs):
-	instance.gallery.save()
+# @receiver(post_save, sender=User)
+# def save_gallery(sender, instance, **kwargs):
+# 	instance.gallery.save()
 
   
