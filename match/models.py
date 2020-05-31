@@ -69,8 +69,8 @@ class Choice(models.Model):
 
 		
 # quest generator func 
-# def qc(s,l):
-# 	q = Question.objects.create(question_text=s)
-# 	for i in l:
-# 		q.choice_set.create(choice_text=i)
-# 	return 0
+def qc(s,l):
+	q = Question.objects.create(question_text=s)
+	for i in l:
+		q.choice_set.create(choice_text=i)
+	return 0
