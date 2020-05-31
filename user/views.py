@@ -19,7 +19,8 @@ from .models import (
 	Profile,  
 	OthersProfiles, 
 	BioDataModel,
-	GalleryNew
+	GalleryNew,
+	Like
 	)
 from django.contrib.auth.decorators import login_required 
 from django.views.generic import TemplateView, DetailView, ListView
@@ -204,4 +205,30 @@ def other_interest(request, slug):
 	context.update(notification(request))
 	return render(request, 'user/othersinterest.html', context)	
 
+
+def like_image(request):
+	user = request.user
+	if request.method == 'POST':
+		gallery_id = request.POST.get('image_id')
+		print(request.POST)
+		gallery_obj = GalleryNew.objects.get(id=gallery_id)
+
+		if user in gallery_obj.liked.all():
+			gallery_obj.liked.remove(user)
+		else:
+			gallery_obj.liked.add(user)
+		
+		like, created = Like.objects.get_or_create(user=user, gallery_id=gallery_id)
+
+		if not created:
+			if like.value == 'Like':
+				like.value = 'Unlike'
+			else:
+				like.value = 'Like'
+		
+		like.save()
+		otheruser = request.POST.get('otheruser')
+		if otheruser != request.user.username:
+			return redirect('other_gallery', otheruser)
+	return redirect('gallery')
 

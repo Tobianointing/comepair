@@ -209,6 +209,25 @@ class BioDataModel(models.Model):
 class GalleryNew(models.Model):
 	user = models.ForeignKey(User, on_delete=models.CASCADE)
 	gallery_image = CloudinaryField('gallery')
+	liked = models.ManyToManyField(User, default=None, blank=True, related_name='liked')
 
 	def __str__(self):
 		return f'{self.user.username} GalleryNew'
+
+	@property
+	def num_likes(self):
+		return self.liked.all().count()
+
+
+LIKE_CHOICES = (
+	('Like', 'Like'),
+	('Unlike', 'Unlike'),
+)
+
+class Like(models.Model):
+	user = models.ForeignKey(User, on_delete=models.CASCADE)
+	gallery = models.ForeignKey(GalleryNew, on_delete=models.CASCADE)
+	value = models.CharField(choices=LIKE_CHOICES, default='Like', max_length=10)
+
+	def __str__(self):
+		return f'{str(self.gallery)}_{self.gallery.id}'

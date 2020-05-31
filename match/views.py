@@ -180,7 +180,7 @@ def question_page(request, questionId):
 		  	)
 		)
 		print(questionId)
-		while questionId < 25:
+		while questionId < 24:
 			try:
 				return redirect('question_page', f'{questionId + 1}')
 			except TypeError:

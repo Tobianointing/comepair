@@ -10,6 +10,7 @@ from user.views import(
     gallery, interest, profile_update,
     other_profiles, other_gallery,
     other_interest,
+    like_image,
     )
 
 urlpatterns = [
@@ -60,5 +61,7 @@ urlpatterns = [
     path('otherprofiles/<slug:slug>/', other_profiles, name='otherprofiles'),
     path('othergallery/<slug:slug>/', other_gallery, name='other_gallery'),
     path('otherinterest/<slug:slug>/', other_interest, name='other_interest' ),
+
+    path('like/', like_image, name='like-image')
 
 ]

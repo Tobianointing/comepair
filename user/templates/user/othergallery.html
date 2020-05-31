@@ -11,6 +11,19 @@
       <a href="{{ gallery.gallery_image.url }}">
         <img class="img-responsive" style="width: 10rem; height: 10rem" src="{{ gallery.gallery_image.url }}">
       </a>
+      <div>
+        <form action="{% url 'like-image' %}" method="POST">
+          {% csrf_token %}
+          <input type="hidden" name="image_id", value="{{ gallery.id }}">
+          <input type="hidden" name="otheruser", value="{{ gallery.user.username }}">
+          {% if user not in gallery.liked.all %}
+            <button class="btn-sm btn-primary" type="submit">Like</button>
+          {% else %}
+            <button class="btn-sm btn-light" type="submit">Unlike</button>
+          {% endif %}
+          <strong>{{ gallery.liked.all.count }}</strong>
+        </form>
+      </div>
     </span>
   {% endfor %}
 {% endblock %}
