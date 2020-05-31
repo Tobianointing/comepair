@@ -11,7 +11,7 @@
       <a href="{{ gallery.gallery_image.url }}">
         <img class="img-responsive" style="width: 10rem; height: 10rem" src="{{ gallery.gallery_image.url }}">
       </a>
-      <div>
+      <!-- <div>
         <form action="{% url 'like-image' %}" method="POST">
           {% csrf_token %}
           <input type="hidden" name="image_id", value="{{ gallery.id }}">
@@ -23,7 +23,7 @@
           {% endif %}
           <strong>{{ gallery.liked.all.count }}</strong>
         </form>
-      </div>
+      </div> -->
     </span>
   {% endfor %}
 {% endblock %}
