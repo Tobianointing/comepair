@@ -1,6 +1,5 @@
 # anointing-dating
-my site 1st.
- 
+A match making web application. 
 
 ### Getting started.
 
