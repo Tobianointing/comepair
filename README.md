@@ -1,4 +1,4 @@
-# anointing-dating
+# Comepair
 A match making web application. 
 
 ### Getting started.
